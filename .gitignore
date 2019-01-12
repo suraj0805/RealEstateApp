@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/RealEstate.Data/bin/Debug
+/RealEstate.Data/obj/Debug
+/RealEstate.Infrastructure/bin/Debug
+/RealEstate.Infrastructure/obj/Debug
+/RealEstate.Model/bin/Debug
+/RealEstate.Model/obj/Debug
+/RealEstate.Notification.WebJob/bin/Debug
+/RealEstate.Notification.WebJob/obj/Debug
