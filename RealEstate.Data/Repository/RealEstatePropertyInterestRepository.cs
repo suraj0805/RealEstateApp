@@ -3,6 +3,7 @@ using RealEstate.Data.Repository.IRepository;
 using RealEstate.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,15 +36,15 @@ namespace RealEstate.Data.Repository
             return realEstatePropertyInterest;
         }
 
-        public async Task DeleteRealEstatePropertyInterest(RealEstatePropertyInterest realEstatePropertyInterest)
+        public async Task DeleteRealEstatePropertyInterest(long propertyId,string userId)
         {
-            if (realEstatePropertyInterest == null)
-                throw new ArgumentNullException(nameof(realEstatePropertyInterest));
+            if (propertyId == default(long))
+                throw new ArgumentNullException(nameof(propertyId));
             var realEstatePropertyInterestData = RealEstateContext.RealEstatePropertyInterest.
-                FirstOrDefault(x => x.PropertyId == realEstatePropertyInterest.PropertyId && x.UserId == realEstatePropertyInterest.UserId && x.IsActive);
+                FirstOrDefault(x => x.PropertyId == propertyId && x.UserId==userId && x.IsActive);
             if (realEstatePropertyInterestData == null)
             {
-                throw new InvalidOperationException(nameof(realEstatePropertyInterest));
+                throw new InvalidOperationException(nameof(propertyId));
             }
 
             realEstatePropertyInterestData.IsActive = false;
@@ -52,7 +53,20 @@ namespace RealEstate.Data.Repository
 
         public IList<RealEstatePropertyInterest> GetRealEstatePropertyInterests(long propertyId)
         {
-            return RealEstateContext.RealEstatePropertyInterest.Where(x => x.PropertyId == propertyId && x.IsActive).ToList();
+            return RealEstateContext.RealEstatePropertyInterest.Include(x => x.Property).Include(x => x.User)
+                .Where(x => x.PropertyId == propertyId && x.IsActive).ToList();
+        }
+
+        public IList<RealEstatePropertyInterest> GetRealEstatePropertyInterests(long propertyId,string userId)
+        {
+            return RealEstateContext.RealEstatePropertyInterest.Include(x => x.Property).Include(x => x.User)
+                .Where(x => x.PropertyId == propertyId && x.UserId == userId && x.IsActive).ToList();
+        }
+
+        public IList<RealEstatePropertyInterest> GetRealEstatePropertyInterests(string userId)
+        {
+            return RealEstateContext.RealEstatePropertyInterest.Include(x => x.Property).Include(x => x.User)
+                .Where(x => x.UserId == userId && x.IsActive).ToList();
         }
     }
 }

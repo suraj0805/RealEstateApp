@@ -25,5 +25,6 @@ namespace RealEstate.Web.Models
         public string OwnedBy { get; set; }
         [Display(Name ="Property Value")]
         public decimal PropertyValue { get; set; }
+        public bool IsInterested { get; set; }
     }
 }

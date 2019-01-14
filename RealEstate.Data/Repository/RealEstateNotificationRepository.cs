@@ -16,6 +16,16 @@ namespace RealEstate.Data.Repository
 
         }
 
+        public async Task<RealEstateNotification> CreateRealEstateNotification(RealEstateNotification realEstateNotification)
+        {
+            realEstateNotification.CreatedDate = DateTime.Now;
+            realEstateNotification.IsActive = true;
+            realEstateNotification.IsRead = false;
+            RealEstateContext.RealEstateNotification.Add(realEstateNotification);
+            await RealEstateContext.SaveChangesAsync();
+            return realEstateNotification;
+        }
+
         public IList<RealEstateNotification> GetRealEstateNotifications(string userId)
         {
             return RealEstateContext.RealEstateNotification.Where(x => x.UserId == userId && x.IsActive).ToList();

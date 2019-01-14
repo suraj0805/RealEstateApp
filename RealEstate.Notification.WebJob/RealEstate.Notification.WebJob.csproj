@@ -34,7 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -85,6 +88,10 @@
     <ProjectReference Include="..\RealEstate.Data\RealEstate.Data.csproj">
       <Project>{cfb00e12-f8bc-4194-bd64-fa4cbaea7ae1}</Project>
       <Name>RealEstate.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RealEstate.Infrastructure\RealEstate.Infrastructure.csproj">
+      <Project>{997D5AF1-FB9B-4341-A2DF-B3D03CCC1172}</Project>
+      <Name>RealEstate.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\RealEstate.Model\RealEstate.Model.csproj">
       <Project>{626387b3-eb9f-4b1a-aeec-906369a71f4e}</Project>

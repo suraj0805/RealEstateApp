@@ -1,4 +1,7 @@
-﻿using RealEstate.Data.Repository.IRepository;
+﻿using Newtonsoft.Json;
+using RealEstate.Data.Repository.IRepository;
+using RealEstate.Infrastructure.AzureHelpers;
+using RealEstate.Model.QueueMessage;
 using RealEstate.Web.Mappers;
 using RealEstate.Web.Models;
 using System;
@@ -11,13 +14,15 @@ using System.Web.Mvc;
 namespace RealEstate.Web.Controllers
 {
     [Authorize]
-    public class PropertyController : Controller
+    public class PropertyController : BaseController
     {
         private readonly IRealEstatePropertyRepository realEstatePropertyRepository;
+        private readonly IRealEstatePropertyInterestRepository realEstatePropertyInterestRepository;
 
-        public PropertyController(IRealEstatePropertyRepository realEstatePropertyRepository)
+        public PropertyController(IRealEstatePropertyRepository realEstatePropertyRepository, IRealEstatePropertyInterestRepository realEstatePropertyInterestRepository)
         {
             this.realEstatePropertyRepository = realEstatePropertyRepository;
+            this.realEstatePropertyInterestRepository = realEstatePropertyInterestRepository;
         }
 
         [Authorize]
@@ -29,15 +34,15 @@ namespace RealEstate.Web.Controllers
 
         public ActionResult SearchProperty(string searchBy, string searchString)
         {
-            ViewData["SearchBy"] = searchBy;
-            ViewData["SearchString"] = searchString;
             var model = realEstatePropertyRepository.GetRealEstateProperties(searchBy, searchString).Map();
             return View("Index",model);
         }
 
         public ActionResult PropertyDetails(long propertyId)
         {
+            var propertyInterest = realEstatePropertyInterestRepository.GetRealEstatePropertyInterests(propertyId, UserId);
             var model = realEstatePropertyRepository.GetRealEstateProperty(propertyId).Map();
+            model.IsInterested = propertyInterest.Any();
             return View(model);
         }
 
@@ -58,8 +63,10 @@ namespace RealEstate.Web.Controllers
                     var realEstateProperty = propertyViewModel.Map();
                     var result = await realEstatePropertyRepository.EditRealEsateProperty(realEstateProperty);
                     propertyViewModel = result.Map();
+                    //Add to Azure Storage Queue for Notifaction
+                    AddToAzureStorageQueue(propertyViewModel.PropertyId, UserId, UserName);
                 }
-                return View(propertyViewModel);
+                return RedirectToAction("PropertyDetails", new { propertyId = propertyViewModel.PropertyId });
             }
             catch (ArgumentNullException ex)
             {
@@ -71,10 +78,17 @@ namespace RealEstate.Web.Controllers
                 ModelState.AddModelError("InvalidOperation", ex);
                 return View(propertyViewModel);
             }
-            catch (Exception ex)
+            catch 
             {
-                return View(propertyViewModel);
+                throw;
             }
+        }
+
+        private void AddToAzureStorageQueue(long propertyId, string userId,string userName)
+        {
+            var message = new PropertyChangeNotificationMessage(propertyId, userId, userName);
+            var messageString = JsonConvert.SerializeObject(message);
+            AzureQueueHelper.AddAzureQueueMessage(messageString);
         }
 
         [HttpGet]
@@ -89,11 +103,12 @@ namespace RealEstate.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    propertyViewModel.OwnedBy = UserId;
                     var realEstateProperty = propertyViewModel.Map();
                     var result = await realEstatePropertyRepository.CreateRealEstateProperty(realEstateProperty);
                     propertyViewModel = result.Map();
                 }
-                return View(propertyViewModel);
+                return RedirectToAction("Index");
             }
             catch (ArgumentNullException ex)
             {
@@ -105,9 +120,9 @@ namespace RealEstate.Web.Controllers
                 ModelState.AddModelError("InvalidOperation", ex);
                 return View(propertyViewModel);
             }
-            catch (Exception ex)
+            catch 
             {
-                return View(propertyViewModel);
+                throw;
             }
         }
     }

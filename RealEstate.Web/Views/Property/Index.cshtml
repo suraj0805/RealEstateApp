@@ -6,10 +6,21 @@
 }
 
 <h2>Real Estate Property Search</h2>
-
-<p>
-    @Html.ActionLink("Add Property", "CreateProperty")
-</p>
+<div>
+    @using (Html.BeginForm("SearchProperty", "Property", FormMethod.Get))
+    {
+        //the following are search options
+        <b> Search Option: </b> @Html.RadioButton("searchBy", "PropertyName", true) <text>Property Name</text> @Html.RadioButton("searchBy", "PropertyAddress") <text> Property Location </text>
+        @Html.TextBox("searchString", null, new { @class = "form-control", @style = "display:inline" })
+        <input type="submit" class="btn btn-default" name="submit" value="Search" />
+        @Html.ActionLink("Clear Search", "Index", null, new { @class = "btn btn-default" })
+    }
+</div>
+<br />
+<div>
+    @Html.ActionLink("Add Property", "CreateProperty", null, new { @class = "btn btn-default" })
+</div>
+<br />
 <table class="table">
     <tr>
         <th>
@@ -25,33 +36,40 @@
             @Html.DisplayNameFor(model => model.PropertyAddress)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.PropertyValue)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.OwnedBy)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PropertyId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PropertyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PropertyDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PropertyAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnedBy)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "EditProperty", new { propertyId = item.PropertyId }) |
-            @Html.ActionLink("Details", "PropertyDetails", new { propertyId=item.PropertyId }) |
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyAddress)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.PropertyValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnedBy)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProperty", new { propertyId = item.PropertyId }, new { @class = "btn btn-default" }) 
+                @Html.ActionLink("Details", "PropertyDetails", new { propertyId = item.PropertyId }, new { @class = "btn btn-default" }) 
+            </td>
+        </tr>
+    }
 
 </table>

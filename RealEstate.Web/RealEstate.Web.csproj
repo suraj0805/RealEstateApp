@@ -182,12 +182,16 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="Controllers\PropertyInterestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mappers\PropertyInterestMapper.cs" />
     <Compile Include="Mappers\PropertyMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\PropertyInterestViewModel.cs" />
     <Compile Include="Models\PropertyViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -221,7 +225,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -233,6 +239,7 @@
     <Content Include="Views\Property\EditProperty.cshtml" />
     <Content Include="Views\Property\CreateProperty.cshtml" />
     <Content Include="Views\Property\PropertyDetails.cshtml" />
+    <Content Include="Views\PropertyInterest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -254,6 +261,10 @@
     <ProjectReference Include="..\RealEstate.Data\RealEstate.Data.csproj">
       <Project>{cfb00e12-f8bc-4194-bd64-fa4cbaea7ae1}</Project>
       <Name>RealEstate.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RealEstate.Infrastructure\RealEstate.Infrastructure.csproj">
+      <Project>{997D5AF1-FB9B-4341-A2DF-B3D03CCC1172}</Project>
+      <Name>RealEstate.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\RealEstate.Model\RealEstate.Model.csproj">
       <Project>{626387b3-eb9f-4b1a-aeec-906369a71f4e}</Project>

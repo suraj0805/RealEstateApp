@@ -17,7 +17,7 @@ namespace RealEstate.Web.Mappers
                 PropertyDescription = x.PropertyDescription,
                 PropertyAddress = x.PropertyAddress,
                 PropertyValue = x.PropertyValue,
-                OwnedBy = x.UserId
+                OwnedBy = x.User.UserName
             }).ToList();
         }
 
@@ -29,7 +29,7 @@ namespace RealEstate.Web.Mappers
             result.PropertyDescription = realEstateProperty.PropertyDescription;
             result.PropertyAddress = realEstateProperty.PropertyAddress;
             result.PropertyValue = realEstateProperty.PropertyValue;
-            result.OwnedBy = realEstateProperty.UserId;
+            result.OwnedBy = realEstateProperty.User.UserName;
             return result;
         }
 

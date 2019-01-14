@@ -17,8 +17,7 @@ namespace RealEstate.Infrastructure.AzureHelpers
             string queueName = ConfigurationManager.AppSettings["StorageQueueName"];
 
             // Retrieve storage account from connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-                CloudConfigurationManager.GetSetting(storageConnectionString));
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 
             // Create the queue client.
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();

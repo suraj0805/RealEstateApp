@@ -9,8 +9,8 @@ namespace RealEstate.Model
 {
     public class ModelBase
     {
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         [DefaultValue(true)]
         public bool IsActive { get; set; }
     }

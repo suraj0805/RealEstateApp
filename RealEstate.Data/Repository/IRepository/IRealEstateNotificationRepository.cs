@@ -10,5 +10,6 @@ namespace RealEstate.Data.Repository.IRepository
     public interface IRealEstateNotificationRepository
     {
         IList<RealEstateNotification> GetRealEstateNotifications(string userId);
+        Task<RealEstateNotification> CreateRealEstateNotification(RealEstateNotification realEstateNotification);
     }
 }
