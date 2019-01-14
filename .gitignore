@@ -13,3 +13,11 @@
 /RealEstate.Notification.WebJob/obj/Debug
 /RealEstate.Web/bin
 /RealEstate.Web/bin/Debug
+/RealEstate.Data/bin/Release
+/RealEstate.Data/obj/Release
+/RealEstate.Infrastructure/bin/Release
+/RealEstate.Infrastructure/obj/Release
+/RealEstate.Model/bin/Release
+/RealEstate.Model/obj/Release
+/RealEstate.Notification.WebJob/bin/Release
+/RealEstate.Notification.WebJob/obj/Release
